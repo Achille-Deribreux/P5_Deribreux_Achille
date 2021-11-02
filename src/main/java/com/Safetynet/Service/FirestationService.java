@@ -17,12 +17,12 @@ public class FirestationService implements IFirestationService {
     }
 
     @Override
-    public Firestations editFirestations(Firestations firestations) {
+    public Firestations editFirestation(Firestations firestations) {
         return firestationDAO.editFirestations(firestations);
     }
 
     @Override
-    public void deleteFirestations(Firestations firestations) {
+    public void deleteFirestation(Firestations firestations) {
         firestationDAO.deleteFirestations(firestations);
     }
 }
