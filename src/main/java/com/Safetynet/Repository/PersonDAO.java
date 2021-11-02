@@ -19,11 +19,22 @@ public class PersonDAO implements IPersonDAO{
 
     @Override
     public Person addPerson(Person person) {
-        return null;
+        personList.add(person);
+        return person;
     }
 
     @Override
     public Person editPerson(Person person) {
+        Person personToUpdate = null;
+        for (Person p : personList){
+            if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
+                personToUpdate = p;
+            }
+        }
+        if(personToUpdate != null){
+            personList.set(personList.indexOf(personToUpdate), person);
+            return person;
+        }
         return null;
     }
 

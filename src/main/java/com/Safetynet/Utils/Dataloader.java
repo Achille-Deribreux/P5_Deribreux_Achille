@@ -1,6 +1,8 @@
 package com.Safetynet.Utils;
 
 import com.Safetynet.Model.Data;
+import com.Safetynet.Repository.FirestationDAO;
+import com.Safetynet.Repository.MedicalRecordsDAO;
 import com.Safetynet.Repository.PersonDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,10 @@ public class Dataloader {
 
     @Autowired
     PersonDAO personDAO;
+    @Autowired
+    MedicalRecordsDAO medicalRecordsDAO;
+    @Autowired
+    FirestationDAO firestationDAO;
 
     Data data;
     static ObjectMapper mapper = new ObjectMapper();
@@ -31,5 +37,7 @@ public class Dataloader {
     @PostConstruct
     private void postConstruct(){
         personDAO.setPersonList(loadData().getPersons());
+        medicalRecordsDAO.setMedicalRecordsList(loadData().getMedicalrecords());
+        firestationDAO.setFirestationsList(loadData().getFirestations());
     }
 }
