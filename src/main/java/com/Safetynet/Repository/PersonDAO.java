@@ -40,6 +40,14 @@ public class PersonDAO implements IPersonDAO{
 
     @Override
     public void deletePerson(Person person) {
-
+        Person personToDelete = null;
+        for(Person p : personList){
+            if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
+                personToDelete = p;
+            }
+        }
+        if(personToDelete != null){
+            personList.remove(personToDelete);
+        }
     }
 }
