@@ -1,8 +1,10 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Model.Person;
+import com.Safetynet.Model.Specific.ChildAlert;
 import com.Safetynet.Model.Specific.ListByFirestation;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
+import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
 import com.Safetynet.Repository.FirestationDAO;
 import com.Safetynet.Repository.MedicalRecordsDAO;
 import com.Safetynet.Repository.PersonDAO;
@@ -49,5 +51,34 @@ public class AlertService {
         return new ListByFirestation(personWithNameAddressPhoneList, adultsCounter, childrenCounter);
     }
 
+    public ChildAlert getChildsAndAdultsByAddress(String address){
+        List<PersonWithNameAge> adultsList = new ArrayList<>();
+        List<PersonWithNameAge> childrenList = new ArrayList<>();
 
+        for(Person person : personDAO.getPersonList()){
+            if(person.getAddress().equals(address)){
+                PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()));
+                if(personToAdd.getAge() < 18){
+                    childrenList.add(personToAdd);
+                }else if(personToAdd.getAge() > 18){
+                    adultsList.add(personToAdd);
+                }
+            }
+        }
+        //TODO : Retour vide si pas d'enfants
+        return new ChildAlert(childrenList, adultsList);
+    }
+
+    public List<String> getAllPhonesByFirestationNumber(Integer firestationNumber){
+        String firestationAddress = util.getAddressByFirestationNumber(firestationNumber);
+        List<String> phoneNumberList = new ArrayList<>();
+
+        for(Person person : personDAO.getPersonList()){
+            if(person.getAddress().equals(firestationAddress)){
+                phoneNumberList.add(person.getPhone());
+            }
+        }
+        return phoneNumberList;
+    }
+    
 }
