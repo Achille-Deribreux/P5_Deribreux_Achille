@@ -9,7 +9,6 @@ import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAgeMedRecs;
-import com.Safetynet.Utils.AgeCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class AlertService {
     @Autowired
     MedicalRecordService medicalRecordService;
 
-    AgeCalculator ageCalculator = new AgeCalculator();
+
 
     public ListByFirestation getPersonsListByFirestation(Integer firestation){
         List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
@@ -39,10 +38,10 @@ public class AlertService {
         for(Person person : personService.findAll()){
             if (person.getAddress().equals(firestationAddress)){
                 personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
-                if (ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) < 18){
+                if (medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) < 18){
                     childrenCounter ++;
                 }
-                else if(ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) > 18){
+                else if(medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) > 18){
                     adultsCounter ++;
                 }
             }
@@ -56,7 +55,7 @@ public class AlertService {
 
         for(Person person : personService.findAll()){
             if(person.getAddress().equals(address)){
-                PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()));
+                PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()));
                 if(personToAdd.getAge() < 18){
                     childrenList.add(personToAdd);
                 }else if(personToAdd.getAge() > 18){
@@ -90,7 +89,7 @@ public class AlertService {
                         person.getFirstName(),
                         person.getLastName(),
                         person.getPhone(),
-                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                 ));
@@ -112,7 +111,7 @@ public class AlertService {
                             person.getFirstName(),
                             person.getLastName(),
                             person.getPhone(),
-                            ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                            medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                             medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                             medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                     ));
@@ -132,7 +131,7 @@ public class AlertService {
                         person.getFirstName(),
                         person.getLastName(),
                         person.getAddress(),
-                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                 ));
