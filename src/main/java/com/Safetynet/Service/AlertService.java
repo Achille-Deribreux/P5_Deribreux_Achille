@@ -4,6 +4,7 @@ import com.Safetynet.Model.Person;
 import com.Safetynet.Model.Specific.ChildAlert;
 import com.Safetynet.Model.Specific.Fire;
 import com.Safetynet.Model.Specific.ListByFirestation;
+import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAgeMedRecs;
@@ -95,6 +96,37 @@ public class AlertService {
             }
         }
         return new Fire(firestationNumber,personWithNameAgeMedRecsList);
+    }
+
+    //TODO : 5
+
+    public List<FullInfoPerson> getFullInfoPersonByName(String firstName, String lastName){
+        List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
+
+        for (Person person : personService.findAll()){
+            if(person.getFirstName().equals(firstName)&&person.getLastName().equals(lastName)){
+                fullInfoPersonList.add(new FullInfoPerson(
+                        person.getFirstName(),
+                        person.getLastName(),
+                        person.getAddress(),
+                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
+                ));
+            }
+        }
+        return fullInfoPersonList;
+    }
+
+    public List<String> getEmailListByCity(String city){
+        List<String> emailList = new ArrayList<>();
+
+        for(Person person : personService.findAll()){
+            if(person.getCity().equals(city)){
+                emailList.add(person.getEmail());
+            }
+        }
+        return emailList;
     }
 
 }
