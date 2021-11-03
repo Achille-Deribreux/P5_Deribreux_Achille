@@ -1,10 +1,13 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Model.Person;
-import com.Safetynet.Model.Specific.FirestationZone;
+import com.Safetynet.Model.Specific.ListByFirestation;
+import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Repository.FirestationDAO;
 import com.Safetynet.Repository.MedicalRecordsDAO;
 import com.Safetynet.Repository.PersonDAO;
+import com.Safetynet.Utils.AgeCalculator;
+import com.Safetynet.Utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +26,28 @@ public class AlertService {
     @Autowired
     MedicalRecordsDAO medicalRecordsDAO;
 
-    public FirestationZone getPersonsListByFirestation(Integer firestationNumber) {
-        List<Person> personsList = new ArrayList<>();
-        Integer childrenCounter = 0;
-        Integer adultsCounter = 0;
+    AgeCalculator ageCalculator = new AgeCalculator();
+    Util util = new Util();
 
-        return null;
+    public ListByFirestation getPersonsListByFirestation(Integer firestation){
+        List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
+        int childrenCounter = 0;
+        int adultsCounter = 0;
+        String firestationAddress = util.getAddressByFirestationNumber(firestation);
+
+        for(Person person : personDAO.getPersonList()){
+            if (person.getAddress().equals(firestationAddress)){
+                personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
+                if (ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) < 18){
+                    childrenCounter ++;
+                }
+                else if(ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) > 18){
+                    adultsCounter ++;
+                }
+            }
+        }
+        return new ListByFirestation(personWithNameAddressPhoneList, adultsCounter, childrenCounter);
     }
+
+
 }
