@@ -4,11 +4,13 @@ import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Repository.MedicalRecordsDAO;
 import com.Safetynet.Service.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class AgeCalculator {
 
     @Autowired
