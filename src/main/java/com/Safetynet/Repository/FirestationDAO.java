@@ -1,9 +1,11 @@
 package com.Safetynet.Repository;
 
 import com.Safetynet.Model.Firestations;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class FirestationDAO implements IFirestationDAO{
     private List<Firestations> firestationsList;
 

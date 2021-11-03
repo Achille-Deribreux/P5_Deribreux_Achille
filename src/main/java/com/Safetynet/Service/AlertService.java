@@ -99,7 +99,6 @@ public class AlertService {
         return new Fire(firestationNumber,personWithNameAgeMedRecsList);
     }
 
-    //TODO : 5
     public List<Flood> getPersonsAndAddressByFirestationNumber(List<Integer> firestationNumberList){
         List<Flood> floodList = new ArrayList<>();
 

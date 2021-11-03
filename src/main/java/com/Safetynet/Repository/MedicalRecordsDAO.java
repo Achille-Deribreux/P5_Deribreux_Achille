@@ -1,9 +1,11 @@
 package com.Safetynet.Repository;
 
 import com.Safetynet.Model.MedicalRecords;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class MedicalRecordsDAO implements IMedicalRecordDAO{
     private List<MedicalRecords> medicalRecordsList;
 
