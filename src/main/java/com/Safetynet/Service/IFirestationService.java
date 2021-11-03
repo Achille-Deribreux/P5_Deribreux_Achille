@@ -2,9 +2,13 @@ package com.Safetynet.Service;
 
 import com.Safetynet.Model.Firestations;
 
-public interface IFirestationService {
+import java.util.List;
 
-    public Firestations addFirestation(Firestations firestations);
-    public Firestations editFirestation(Firestations firestations);
-    public void deleteFirestation(Firestations firestations);
+public interface IFirestationService {
+     List<Firestations> findAll();
+    String findAddressByNumber(Integer firestationNumber);
+    Integer findNumberByAddress(String address);
+     Firestations addFirestation(Firestations firestations);
+     Firestations editFirestation(Firestations firestations);
+     void deleteFirestation(Firestations firestations);
 }

@@ -15,6 +15,11 @@ public class PersonService implements IPersonService {
     PersonDAO personDAO;
 
     @Override
+    public List<Person> findAll(){
+        return personDAO.getPersonList();
+    }
+
+    @Override
     public Person addPerson(Person person) {
         return personDAO.addPerson(person);
     }

@@ -10,11 +10,12 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class AgeCalculator {
+
     @Autowired
-    MedicalRecordsDAO medicalRecordsDAO;
+    MedicalRecordService medicalRecordService;
 
     public Integer getAgeFromName(String firstName, String lastName){
-        for(MedicalRecords medicalRecords : medicalRecordsDAO.getMedicalRecordsList()){
+        for(MedicalRecords medicalRecords : medicalRecordService.findAll()){
             if(medicalRecords.getFirstName().equals(firstName)&&medicalRecords.getLastName().equals(lastName)){
                 return getAgeFromBirthDate(medicalRecords.getBirthdate());
             }

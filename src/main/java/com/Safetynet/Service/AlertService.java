@@ -2,14 +2,12 @@ package com.Safetynet.Service;
 
 import com.Safetynet.Model.Person;
 import com.Safetynet.Model.Specific.ChildAlert;
+import com.Safetynet.Model.Specific.Fire;
 import com.Safetynet.Model.Specific.ListByFirestation;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
-import com.Safetynet.Repository.FirestationDAO;
-import com.Safetynet.Repository.MedicalRecordsDAO;
-import com.Safetynet.Repository.PersonDAO;
+import com.Safetynet.Model.Specific.utils.PersonWithNameAgeMedRecs;
 import com.Safetynet.Utils.AgeCalculator;
-import com.Safetynet.Utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,24 +18,23 @@ import java.util.List;
 public class AlertService {
 
     @Autowired
-    PersonDAO personDAO;
+    PersonService personService;
 
     @Autowired
-    FirestationDAO firestationDAO;
+    FirestationService firestationService;
 
     @Autowired
-    MedicalRecordsDAO medicalRecordsDAO;
+    MedicalRecordService medicalRecordService;
 
     AgeCalculator ageCalculator = new AgeCalculator();
-    Util util = new Util();
 
     public ListByFirestation getPersonsListByFirestation(Integer firestation){
         List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
         int childrenCounter = 0;
         int adultsCounter = 0;
-        String firestationAddress = util.getAddressByFirestationNumber(firestation);
+        String firestationAddress = firestationService.findAddressByNumber(firestation);
 
-        for(Person person : personDAO.getPersonList()){
+        for(Person person : personService.findAll()){
             if (person.getAddress().equals(firestationAddress)){
                 personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
                 if (ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) < 18){
@@ -55,7 +52,7 @@ public class AlertService {
         List<PersonWithNameAge> adultsList = new ArrayList<>();
         List<PersonWithNameAge> childrenList = new ArrayList<>();
 
-        for(Person person : personDAO.getPersonList()){
+        for(Person person : personService.findAll()){
             if(person.getAddress().equals(address)){
                 PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()));
                 if(personToAdd.getAge() < 18){
@@ -70,15 +67,34 @@ public class AlertService {
     }
 
     public List<String> getAllPhonesByFirestationNumber(Integer firestationNumber){
-        String firestationAddress = util.getAddressByFirestationNumber(firestationNumber);
+        String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
         List<String> phoneNumberList = new ArrayList<>();
 
-        for(Person person : personDAO.getPersonList()){
+        for(Person person : personService.findAll()){
             if(person.getAddress().equals(firestationAddress)){
                 phoneNumberList.add(person.getPhone());
             }
         }
         return phoneNumberList;
     }
-    
+
+    public Fire getPersonByAddress(String address){
+        Integer firestationNumber = firestationService.findNumberByAddress(address);
+        List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
+
+        for(Person person : personService.findAll()){
+            if (person.getAddress().equals(address)){
+                personWithNameAgeMedRecsList.add(new PersonWithNameAgeMedRecs(
+                        person.getFirstName(),
+                        person.getLastName(),
+                        person.getPhone(),
+                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
+                ));
+            }
+        }
+        return new Fire(firestationNumber,personWithNameAgeMedRecsList);
+    }
+
 }

@@ -2,8 +2,11 @@ package com.Safetynet.Service;
 
 import com.Safetynet.Model.Person;
 
+import java.util.List;
+
 public interface IPersonService {
-    public Person addPerson(Person person);
-    public Person editPerson(Person person);
-    public void deletePerson(Person person);
+    List<Person> findAll();
+    Person addPerson(Person person);
+    Person editPerson(Person person);
+    void deletePerson(Person person);
 }
