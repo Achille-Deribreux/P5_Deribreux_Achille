@@ -3,6 +3,7 @@ package com.Safetynet.Service;
 import com.Safetynet.Model.Person;
 import com.Safetynet.Model.Specific.ChildAlert;
 import com.Safetynet.Model.Specific.Fire;
+import com.Safetynet.Model.Specific.Flood;
 import com.Safetynet.Model.Specific.ListByFirestation;
 import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
@@ -99,6 +100,29 @@ public class AlertService {
     }
 
     //TODO : 5
+    public List<Flood> getPersonsAndAddressByFirestationNumber(List<Integer> firestationNumberList){
+        List<Flood> floodList = new ArrayList<>();
+
+        for(Integer firestationNumber : firestationNumberList){
+            String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
+            List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
+
+            for (Person person : personService.findAll()){
+                if(person.getAddress().equals(firestationAddress)){
+                    personWithNameAgeMedRecsList.add(new PersonWithNameAgeMedRecs(
+                            person.getFirstName(),
+                            person.getLastName(),
+                            person.getPhone(),
+                            ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                            medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
+                            medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
+                    ));
+                }
+            }
+            floodList.add(new Flood(firestationAddress,personWithNameAgeMedRecsList));
+        }
+        return floodList;
+    }
 
     public List<FullInfoPerson> getFullInfoPersonByName(String firstName, String lastName){
         List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
