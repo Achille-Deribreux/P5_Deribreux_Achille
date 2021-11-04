@@ -39,4 +39,28 @@ public class FirestationServiceTest {
         //Then
         assertEquals(expected,result);
     }
+
+    @Test
+    public void findAddressByNumberTest(){
+        //Given
+        Integer firestationNumber = 3;
+        String expected = "1509 Culver St";
+        String result;
+        //When
+        result = firestationService.findAddressByNumber(firestationNumber);
+        //Then
+        assertEquals(expected,result);
+    }
+
+    @Test
+    public void findNumberByAddressTest(){
+        //Given
+        String address = "1509 Culver St";
+        Integer expected = 3;
+        Integer result;
+        //When
+        result = firestationService.findNumberByAddress(address);
+        //Then
+        assertEquals(expected,result);
+    }
 }
