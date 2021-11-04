@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AlertService {
+public class AlertService implements IAlertService{
 
     @Autowired
     PersonService personService;
@@ -28,7 +28,7 @@ public class AlertService {
     MedicalRecordService medicalRecordService;
 
 
-
+    @Override
     public ListByFirestation getPersonsListByFirestation(Integer firestation){
         List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
         int childrenCounter = 0;
@@ -49,6 +49,7 @@ public class AlertService {
         return new ListByFirestation(personWithNameAddressPhoneList, adultsCounter, childrenCounter);
     }
 
+    @Override
     public ChildAlert getChildsAndAdultsByAddress(String address){
         List<PersonWithNameAge> adultsList = new ArrayList<>();
         List<PersonWithNameAge> childrenList = new ArrayList<>();
@@ -67,6 +68,7 @@ public class AlertService {
         return new ChildAlert(childrenList, adultsList);
     }
 
+    @Override
     public List<String> getAllPhonesByFirestationNumber(Integer firestationNumber){
         String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
         List<String> phoneNumberList = new ArrayList<>();
@@ -79,6 +81,7 @@ public class AlertService {
         return phoneNumberList;
     }
 
+    @Override
     public Fire getPersonByAddress(String address){
         Integer firestationNumber = firestationService.findNumberByAddress(address);
         List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
@@ -98,6 +101,7 @@ public class AlertService {
         return new Fire(firestationNumber,personWithNameAgeMedRecsList);
     }
 
+    @Override
     public List<Flood> getPersonsAndAddressByFirestationNumber(List<Integer> firestationNumberList){
         List<Flood> floodList = new ArrayList<>();
 
@@ -122,6 +126,7 @@ public class AlertService {
         return floodList;
     }
 
+    @Override
     public List<FullInfoPerson> getFullInfoPersonByName(String firstName, String lastName){
         List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
 
@@ -140,6 +145,7 @@ public class AlertService {
         return fullInfoPersonList;
     }
 
+    @Override
     public List<String> getEmailListByCity(String city){
         List<String> emailList = new ArrayList<>();
 
