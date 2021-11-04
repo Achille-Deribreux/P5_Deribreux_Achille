@@ -1,26 +1,26 @@
 package com.Safetynet.Service;
 
-import com.Safetynet.Data.AlertServiceTestData;
 import com.Safetynet.Data.GeneralData;
 import com.Safetynet.Model.Data;
-import com.Safetynet.Model.Specific.ListByFirestation;
+import com.Safetynet.Model.Person;
 import com.Safetynet.Utils.Dataloader;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class AlertServiceTest {
+public class PersonServiceTest {
 
     @Autowired
     Dataloader dataloader;
 
     @Autowired
-    AlertService alertService;
+    PersonService personService;
 
     @BeforeEach
     public void setup(){
@@ -29,16 +29,13 @@ public class AlertServiceTest {
     }
 
     @Test
-    public void getPersonsListByFirestationTest(){
+    public void findAllTest(){
         //Given
-        Integer firestationNumber = 3;
-        ListByFirestation expected = AlertServiceTestData.getPersonsListByFirestation();
-        ListByFirestation result;
+        List<Person> expected = GeneralData.getPersonList();
+        List<Person> result;
         //When
-        result = alertService.getPersonsListByFirestation(firestationNumber);
+        result = personService.findAll();
         //Then
         assertEquals(expected,result);
     }
-
-
 }

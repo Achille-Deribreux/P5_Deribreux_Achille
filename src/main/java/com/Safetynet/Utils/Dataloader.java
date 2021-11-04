@@ -7,13 +7,11 @@ import com.Safetynet.Repository.PersonDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
 @Component
-public class Dataloader {
+public class Dataloader implements IDataloader{
 
     @Autowired
     PersonDAO personDAO;
@@ -22,22 +20,31 @@ public class Dataloader {
     @Autowired
     FirestationDAO firestationDAO;
 
-    Data data;
+    Data data = null;
+
     static ObjectMapper mapper = new ObjectMapper();
 
-    public Data loadData(){
-        try {
-            data = mapper.readValue(new File("data.json"), Data.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
+    public void setDataFile(Data data) {
+        this.data = data;
+        loadData();
     }
 
-    @PostConstruct
-    private void postConstruct(){
-        personDAO.setPersonList(loadData().getPersons());
-        medicalRecordsDAO.setMedicalRecordsList(loadData().getMedicalrecords());
-        firestationDAO.setFirestationsList(loadData().getFirestations());
+    public void loadData(){
+        if (data != null) {
+            daoConstruct();
+        }else {
+            try {
+                data = mapper.readValue(new File("data.json"), Data.class);
+                daoConstruct();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void daoConstruct(){
+        personDAO.setPersonList(data.getPersons());
+        medicalRecordsDAO.setMedicalRecordsList(data.getMedicalrecords());
+        firestationDAO.setFirestationsList(data.getFirestations());
     }
 }
