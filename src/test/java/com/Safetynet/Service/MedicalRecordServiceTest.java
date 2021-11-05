@@ -3,15 +3,21 @@ package com.Safetynet.Service;
 import com.Safetynet.Data.GeneralData;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.MedicalRecords;
+import com.Safetynet.Model.Person;
+import com.Safetynet.Repository.MedicalRecordsDAO;
+import com.Safetynet.Repository.PersonDAO;
 import com.Safetynet.Utils.Dataloader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class MedicalRecordServiceTest {
