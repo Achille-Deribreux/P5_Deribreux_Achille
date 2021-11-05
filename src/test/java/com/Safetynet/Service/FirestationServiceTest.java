@@ -3,7 +3,6 @@ package com.Safetynet.Service;
 import com.Safetynet.Data.GeneralData;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.Firestations;
-import com.Safetynet.Model.Person;
 import com.Safetynet.Utils.Dataloader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
