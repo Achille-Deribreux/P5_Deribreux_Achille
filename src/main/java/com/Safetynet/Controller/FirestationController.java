@@ -29,7 +29,7 @@ public class FirestationController {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
         }else {
             firestationService.editFirestation(firestations);
-            return new ResponseEntity<>("Content update successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Content update successfully", HttpStatus.OK);
         }
     }
 
@@ -39,7 +39,7 @@ public class FirestationController {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
         }else {
             firestationService.deleteFirestation(firestations);
-            return new ResponseEntity<>("Content deleted successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Content deleted successfully", HttpStatus.OK);
         }
     }
 
