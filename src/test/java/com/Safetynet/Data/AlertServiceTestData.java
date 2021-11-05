@@ -60,8 +60,8 @@ public class AlertServiceTestData {
                 new PersonWithNameAgeMedRecs("Felicia", "Boyd", "841-874-6544",35,  List.of("tetracyclaz:650mg"), List.of("xilliathal"))));
 
         return new ArrayList<>(Arrays.asList(
-                new Flood("1509 Culver St",firstList),
-                new Flood("29 15th St",secondList)
+                new Flood("29 15th St",secondList),
+                new Flood("1509 Culver St",firstList)
         ));
     }
 
