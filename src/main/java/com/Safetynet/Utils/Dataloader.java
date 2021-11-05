@@ -7,6 +7,8 @@ import com.Safetynet.Repository.PersonDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
@@ -46,5 +48,10 @@ public class Dataloader implements IDataloader{
         personDAO.setPersonList(data.getPersons());
         medicalRecordsDAO.setMedicalRecordsList(data.getMedicalrecords());
         firestationDAO.setFirestationsList(data.getFirestations());
+    }
+
+    @PostConstruct
+    private void postConstruct(){
+        loadData();
     }
 }
