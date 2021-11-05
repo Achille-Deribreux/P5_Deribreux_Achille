@@ -85,6 +85,7 @@ public class PersonDAO implements IPersonDAO{
                     throw new NullPointerException();
                 }else {
                     personList.remove(personToDelete);
+                    LOGGER.info("Person bien supprimée");
                 }
             }
         }catch(Exception e){
