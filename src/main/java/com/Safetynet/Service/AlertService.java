@@ -9,7 +9,6 @@ import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAgeMedRecs;
-import com.Safetynet.Utils.AgeCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AlertService {
+public class AlertService implements IAlertService{
 
     @Autowired
     PersonService personService;
@@ -28,8 +27,8 @@ public class AlertService {
     @Autowired
     MedicalRecordService medicalRecordService;
 
-    AgeCalculator ageCalculator = new AgeCalculator();
 
+    @Override
     public ListByFirestation getPersonsListByFirestation(Integer firestation){
         List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
         int childrenCounter = 0;
@@ -39,10 +38,10 @@ public class AlertService {
         for(Person person : personService.findAll()){
             if (person.getAddress().equals(firestationAddress)){
                 personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
-                if (ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) < 18){
+                if (medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) < 18){
                     childrenCounter ++;
                 }
-                else if(ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()) > 18){
+                else if(medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) > 18){
                     adultsCounter ++;
                 }
             }
@@ -50,13 +49,14 @@ public class AlertService {
         return new ListByFirestation(personWithNameAddressPhoneList, adultsCounter, childrenCounter);
     }
 
+    @Override
     public ChildAlert getChildsAndAdultsByAddress(String address){
         List<PersonWithNameAge> adultsList = new ArrayList<>();
         List<PersonWithNameAge> childrenList = new ArrayList<>();
 
         for(Person person : personService.findAll()){
             if(person.getAddress().equals(address)){
-                PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()));
+                PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()));
                 if(personToAdd.getAge() < 18){
                     childrenList.add(personToAdd);
                 }else if(personToAdd.getAge() > 18){
@@ -68,6 +68,7 @@ public class AlertService {
         return new ChildAlert(childrenList, adultsList);
     }
 
+    @Override
     public List<String> getAllPhonesByFirestationNumber(Integer firestationNumber){
         String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
         List<String> phoneNumberList = new ArrayList<>();
@@ -80,6 +81,7 @@ public class AlertService {
         return phoneNumberList;
     }
 
+    @Override
     public Fire getPersonByAddress(String address){
         Integer firestationNumber = firestationService.findNumberByAddress(address);
         List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
@@ -90,7 +92,7 @@ public class AlertService {
                         person.getFirstName(),
                         person.getLastName(),
                         person.getPhone(),
-                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                 ));
@@ -99,6 +101,7 @@ public class AlertService {
         return new Fire(firestationNumber,personWithNameAgeMedRecsList);
     }
 
+    @Override
     public List<Flood> getPersonsAndAddressByFirestationNumber(List<Integer> firestationNumberList){
         List<Flood> floodList = new ArrayList<>();
 
@@ -112,7 +115,7 @@ public class AlertService {
                             person.getFirstName(),
                             person.getLastName(),
                             person.getPhone(),
-                            ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                            medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                             medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                             medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                     ));
@@ -123,6 +126,7 @@ public class AlertService {
         return floodList;
     }
 
+    @Override
     public List<FullInfoPerson> getFullInfoPersonByName(String firstName, String lastName){
         List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
 
@@ -132,7 +136,7 @@ public class AlertService {
                         person.getFirstName(),
                         person.getLastName(),
                         person.getAddress(),
-                        ageCalculator.getAgeFromName(person.getFirstName(), person.getLastName()),
+                        medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findMedicationsByName(person.getFirstName(), person.getLastName()),
                         medicalRecordService.findAllergiesByName(person.getFirstName(), person.getLastName())
                 ));
@@ -141,6 +145,7 @@ public class AlertService {
         return fullInfoPersonList;
     }
 
+    @Override
     public List<String> getEmailListByCity(String city){
         List<String> emailList = new ArrayList<>();
 
