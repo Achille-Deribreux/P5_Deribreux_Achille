@@ -69,14 +69,26 @@ public class PersonDAO implements IPersonDAO{
 
     @Override
     public void deletePerson(Person person) {
-        Person personToDelete = null;
-        for(Person p : personList){
-            if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
-                personToDelete = p;
+        try{
+            if (person == null) {
+                LOGGER.error("argument null");
+                throw new NullPointerException();
+            }else {
+                Person personToDelete = null;
+                for(Person p : personList){
+                    if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
+                        personToDelete = p;
+                    }
+                }
+                if(personToDelete == null){
+                    LOGGER.error("person non trouvée");
+                    throw new NullPointerException();
+                }else {
+                    personList.remove(personToDelete);
+                }
             }
-        }
-        if(personToDelete != null){
-            personList.remove(personToDelete);
+        }catch(Exception e){
+            LOGGER.error("impossible de modifier une personne", e);
         }
     }
 }
