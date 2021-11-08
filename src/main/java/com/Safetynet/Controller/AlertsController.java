@@ -7,6 +7,8 @@ import com.Safetynet.Model.Specific.ListByFirestation;
 import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Service.AlertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,37 +22,37 @@ public class AlertsController {
     AlertService alertService;
 
     @GetMapping(value = "/communityEmail")
-    public List<String> showEmailsByCity(@RequestParam(value = "city") String city){
-        return alertService.getEmailListByCity(city);
+    public ResponseEntity<List<String>> showEmailsByCity(@RequestParam(value = "city") String city){
+          return new ResponseEntity<>(alertService.getEmailListByCity(city), HttpStatus.OK);
     }
 
     @GetMapping(value = "/phoneAlert")
-    public List<String>showPhoneByFirestationNumber(@RequestParam(value = "firestation") Integer firestationNumber){
-        return alertService.getAllPhonesByFirestationNumber(firestationNumber);
+    public ResponseEntity<List<String>> showPhoneByFirestationNumber(@RequestParam(value = "firestation") Integer firestationNumber){
+        return new ResponseEntity<>(alertService.getAllPhonesByFirestationNumber(firestationNumber), HttpStatus.OK);
     }
 
     @GetMapping(value = "/personInfo")
-    public List<FullInfoPerson> showPersonInfoByNameAndLastName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName){
-        return alertService.getFullInfoPersonByName(firstName,lastName);
+    public ResponseEntity<List<FullInfoPerson>> showPersonInfoByNameAndLastName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName){
+        return new ResponseEntity<>(alertService.getFullInfoPersonByName(firstName,lastName), HttpStatus.OK);
     }
 
     @GetMapping(value="/firestation")
-    public ListByFirestation showPersonsListByFirestation(@RequestParam(value = "stationNumber") Integer stationNumber){
-        return alertService.getPersonsListByFirestation(stationNumber);
+    public ResponseEntity<ListByFirestation> showPersonsListByFirestation(@RequestParam(value = "stationNumber") Integer stationNumber){
+        return new ResponseEntity<>(alertService.getPersonsListByFirestation(stationNumber), HttpStatus.OK);
     }
 
     @GetMapping(value="/childAlert")
-    public ChildAlert showChildrensAndAdultsByAdress(@RequestParam(value="address") String address){
-        return alertService.getChildsAndAdultsByAddress(address);
+    public ResponseEntity<ChildAlert> showChildrensAndAdultsByAdress(@RequestParam(value="address") String address){
+        return new ResponseEntity<>(alertService.getChildsAndAdultsByAddress(address), HttpStatus.OK);
     }
 
     @GetMapping(value = "/fire")
-    public Fire showPersonsListAndFirestationNumberByAdress(@RequestParam(value="address")String address){
-        return alertService.getPersonByAddress(address);
+    public ResponseEntity<Fire> showPersonsListAndFirestationNumberByAdress(@RequestParam(value="address")String address){
+        return new ResponseEntity<>(alertService.getPersonByAddress(address), HttpStatus.OK);
     }
 
     @GetMapping(value="/flood/stations")
-    public List<Flood> showPersonsAndAddressByFireStationNumber(@RequestParam(value="station_numbers") List<Integer> stationsNumberList){
-        return alertService.getPersonsAndAddressByFirestationNumber(stationsNumberList);
+    public ResponseEntity<List<Flood>> showPersonsAndAddressByFireStationNumber(@RequestParam(value="station_numbers") List<Integer> stationsNumberList){
+        return new ResponseEntity<>(alertService.getPersonsAndAddressByFirestationNumber(stationsNumberList), HttpStatus.OK);
     }
 }
