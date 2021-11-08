@@ -20,6 +20,13 @@ public class FirestationDAO implements IFirestationDAO{
     }
 
     @Override
+    public Firestations findByNumber(Integer firestationNumber){
+        return  firestationsList.stream()
+            .filter(f -> f.getStation() == firestationNumber)
+            .findAny().orElse(null);
+    }
+
+    @Override
     public Firestations addFirestations(Firestations firestations) {
         try{
             if(firestations == null){
@@ -44,6 +51,10 @@ public class FirestationDAO implements IFirestationDAO{
                 throw new NullPointerException();
             }else {
                 Firestations firestationToUpdate = null;
+                //firestationToUpdate = firestationsList.stream()
+                  //      .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                //    .findAny().orElse(null);
+
                 for(Firestations f : firestationsList) {
                     if (f.getAddress().equals(firestations.getAddress())) {
                         firestationToUpdate = f;

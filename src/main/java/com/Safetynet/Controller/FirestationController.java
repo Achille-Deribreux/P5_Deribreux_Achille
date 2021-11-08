@@ -7,11 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class FirestationController {
 
     @Autowired
     FirestationService firestationService;
+
+    @GetMapping(value="/firestation", consumes = "application/json")
+    public ResponseEntity<List<Firestations>> getAllFirestations(){
+        return new ResponseEntity<>(firestationService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/firestation/{stationNumber}", consumes = "application/json")
+    public ResponseEntity<Firestations> getAllFirestations(@PathVariable Integer stationNumber){
+        if(firestationService.findByNumber(stationNumber) != null) {
+            return new ResponseEntity<>(firestationService.findByNumber(stationNumber), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping(value="/firestation", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> addFirestation(@RequestBody Firestations firestations){

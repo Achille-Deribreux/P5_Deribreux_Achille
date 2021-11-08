@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IFirestationService {
      List<Firestations> findAll();
+    Firestations findByNumber(Integer firestationNumber);
     String findAddressByNumber(Integer firestationNumber);
     Integer findNumberByAddress(String address);
      Firestations addFirestation(Firestations firestations);
