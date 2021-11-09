@@ -50,16 +50,9 @@ public class FirestationDAO implements IFirestationDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Firestations firestationToUpdate = null;
-                //firestationToUpdate = firestationsList.stream()
-                  //      .filter(f -> f.getAddress().equals(firestations.getAddress()))
-                //    .findAny().orElse(null);
-
-                for(Firestations f : firestationsList) {
-                    if (f.getAddress().equals(firestations.getAddress())) {
-                        firestationToUpdate = f;
-                    }
-                }
+                Firestations firestationToUpdate = firestationsList.stream()
+                        .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                        .findAny().orElse(null);
                 if(firestationToUpdate == null){
                     LOGGER.error("Firestation non trouvée");
                     throw new NullPointerException();
@@ -82,12 +75,9 @@ public class FirestationDAO implements IFirestationDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Firestations firestationToDelete = null;
-                for(Firestations f : firestationsList) {
-                    if (f.getAddress().equals(firestations.getAddress())) {
-                        firestationToDelete = f;
-                    }
-                }
+                Firestations firestationToDelete = firestationsList.stream()
+                        .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                        .findAny().orElse(null);
                 if(firestationToDelete == null){
                     LOGGER.error("ressource non trouvée");
                     throw new NullPointerException();

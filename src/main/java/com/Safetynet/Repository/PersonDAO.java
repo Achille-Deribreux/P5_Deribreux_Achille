@@ -53,12 +53,9 @@ public class PersonDAO implements IPersonDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Person personToUpdate = null;
-                for (Person p : personList){
-                    if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
-                        personToUpdate = p;
-                    }
-                }
+                Person personToUpdate = personList.stream()
+                        .filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
+                        .findAny().orElse(null);
                 if(personToUpdate == null){
                     LOGGER.error("person non trouvée");
                     throw new NullPointerException();
@@ -81,12 +78,9 @@ public class PersonDAO implements IPersonDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Person personToDelete = null;
-                for(Person p : personList){
-                    if(p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName())){
-                        personToDelete = p;
-                    }
-                }
+                Person personToDelete = personList.stream()
+                        .filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
+                        .findAny().orElse(null);
                 if(personToDelete == null){
                     LOGGER.error("person non trouvée");
                     throw new NullPointerException();
