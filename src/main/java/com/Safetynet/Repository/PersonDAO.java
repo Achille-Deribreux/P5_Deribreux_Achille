@@ -22,6 +22,7 @@ public class PersonDAO implements IPersonDAO{
         this.personList = personList;
     }
 
+    @Override
     public Person findByName(String firstName, String lastName){
         return  personList.stream()
                 .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))

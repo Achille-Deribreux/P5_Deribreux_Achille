@@ -18,6 +18,7 @@ public class PersonService implements IPersonService {
         return personDAO.getPersonList();
     }
 
+    @Override
     public Person findByName(String firstName, String lastName){
         return personDAO.findByName(firstName,lastName);
     }

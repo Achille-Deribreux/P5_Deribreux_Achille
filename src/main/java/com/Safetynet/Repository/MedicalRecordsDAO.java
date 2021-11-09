@@ -12,6 +12,7 @@ import java.util.List;
 public class MedicalRecordsDAO implements IMedicalRecordDAO{
     private List<MedicalRecords> medicalRecordsList;
     private static final Logger LOGGER = LogManager.getLogger(MedicalRecordsDAO.class);
+
     public List<MedicalRecords> getMedicalRecordsList() {
         return medicalRecordsList;
     }
@@ -19,6 +20,13 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
     public void setMedicalRecordsList(List<MedicalRecords> medicalRecordsList) {
         this.medicalRecordsList = medicalRecordsList;
     }
+
+    public MedicalRecords findByName(String firstName, String lastName){
+        return  medicalRecordsList.stream()
+                .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
+                .findAny().orElse(null);
+    }
+
 
     @Override
     public MedicalRecords addMedicalRecords(MedicalRecords medicalRecords) {

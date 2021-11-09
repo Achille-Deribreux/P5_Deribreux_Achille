@@ -23,10 +23,13 @@ public class FirestationController {
 
     @GetMapping(value="/firestations/{stationNumber}")
     public ResponseEntity<Firestations> getFirestationsByNumber(@PathVariable Integer stationNumber){
-        if(firestationService.findByNumber(stationNumber) != null) {
-            return new ResponseEntity<>(firestationService.findByNumber(stationNumber), HttpStatus.OK);
-        }else {
+        if(stationNumber == null){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else if(firestationService.findByNumber(stationNumber) == null){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(firestationService.findByNumber(stationNumber), HttpStatus.OK);
         }
     }
 
