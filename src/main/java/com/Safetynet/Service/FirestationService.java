@@ -1,6 +1,7 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Model.Firestations;
+import com.Safetynet.Model.Specific.Fire;
 import com.Safetynet.Repository.FirestationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class FirestationService implements IFirestationService {
     @Override
     public List<Firestations> findAll(){
         return firestationDAO.getFirestationsList();
+    }
+
+    @Override
+    public Firestations findByNumber(Integer firestationNumber){
+        return firestationDAO.findByNumber(firestationNumber);
     }
 
     @Override

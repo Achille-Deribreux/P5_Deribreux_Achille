@@ -12,6 +12,7 @@ import java.util.List;
 public class MedicalRecordsDAO implements IMedicalRecordDAO{
     private List<MedicalRecords> medicalRecordsList;
     private static final Logger LOGGER = LogManager.getLogger(MedicalRecordsDAO.class);
+
     public List<MedicalRecords> getMedicalRecordsList() {
         return medicalRecordsList;
     }
@@ -19,6 +20,13 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
     public void setMedicalRecordsList(List<MedicalRecords> medicalRecordsList) {
         this.medicalRecordsList = medicalRecordsList;
     }
+
+    public MedicalRecords findByName(String firstName, String lastName){
+        return  medicalRecordsList.stream()
+                .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
+                .findAny().orElse(null);
+    }
+
 
     @Override
     public MedicalRecords addMedicalRecords(MedicalRecords medicalRecords) {
@@ -44,12 +52,9 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                MedicalRecords medicalRecordsToUpdate = null;
-                for(MedicalRecords m : medicalRecordsList){
-                    if(m.getFirstName().equals(medicalRecords.getFirstName())&& m.getLastName().equals(medicalRecords.getLastName())){
-                        medicalRecordsToUpdate = m;
-                    }
-                }
+                MedicalRecords medicalRecordsToUpdate = medicalRecordsList.stream()
+                        .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
+                        .findAny().orElse(null);
                 if(medicalRecordsToUpdate == null){
                     LOGGER.error("MedicalRecord non trouvé");
                     throw new NullPointerException();
@@ -72,12 +77,9 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                MedicalRecords medicalRecordsToDelete = null;
-                for(MedicalRecords m : medicalRecordsList){
-                    if(m.getFirstName().equals(medicalRecords.getFirstName())&& m.getLastName().equals(medicalRecords.getLastName())){
-                        medicalRecordsToDelete = m;
-                    }
-                }
+                MedicalRecords medicalRecordsToDelete = medicalRecordsList.stream()
+                        .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
+                        .findAny().orElse(null);
                 if(medicalRecordsToDelete == null){
                     LOGGER.error("ressource non trouvée");
                     throw new NullPointerException();

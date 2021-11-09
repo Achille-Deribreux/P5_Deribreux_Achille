@@ -1,5 +1,6 @@
 package com.Safetynet.Controller;
 
+import com.Safetynet.Model.Firestations;
 import com.Safetynet.Model.Person;
 import com.Safetynet.Service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PersonController {
 
     @Autowired
     PersonService personService;
+
+    @GetMapping(value="/persons")
+    public ResponseEntity<List<Person>> getAllPersons(){
+        return new ResponseEntity<>(personService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/person")
+    public ResponseEntity<Person> getPersonByName(@RequestParam String firstName,@RequestParam String lastName){
+        if(firstName == null || lastName == null){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else if(personService.findByName(firstName,lastName) == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(personService.findByName(firstName, lastName), HttpStatus.OK);
+        }
+    }
 
     @PostMapping(value="/person", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> addPerson(@RequestBody Person person) {

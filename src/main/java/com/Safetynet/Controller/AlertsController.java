@@ -35,7 +35,7 @@ public class AlertsController {
     public ResponseEntity<List<FullInfoPerson>> showPersonInfoByNameAndLastName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName){
         return new ResponseEntity<>(alertService.getFullInfoPersonByName(firstName,lastName), HttpStatus.OK);
     }
-
+    //TODO : SI 3 EN PARAMS, ça passe pas
     @GetMapping(value="/firestation")
     public ResponseEntity<ListByFirestation> showPersonsListByFirestation(@RequestParam(value = "stationNumber") Integer stationNumber){
         return new ResponseEntity<>(alertService.getPersonsListByFirestation(stationNumber), HttpStatus.OK);

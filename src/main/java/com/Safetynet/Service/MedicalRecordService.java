@@ -18,6 +18,10 @@ public class MedicalRecordService implements IMedicalRecordService{
     @Autowired
     MedicalRecordsDAO medicalRecordsDAO;
 
+    public MedicalRecords findByName(String firstName, String lastName){
+        return medicalRecordsDAO.findByName(firstName,lastName);
+    }
+
     public Integer findAgeFromName (String firstName, String lastName){
         for(MedicalRecords medicalRecords : findAll()){
             if(medicalRecords.getFirstName().equals(firstName)&&medicalRecords.getLastName().equals(lastName)){

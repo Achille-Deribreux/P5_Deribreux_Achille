@@ -61,14 +61,17 @@ public class AlertsControllerTest {
     }
 
     //Todo : Comment écrire une liste en param ? ça fonctionne dans Postman
-    /*
     @Test
     public void showPersonsAndAddressByFireStationNumberTest() throws Exception {
         //TODO : change in asList
+        /*
         List<Integer> stationsNumberList = new ArrayList<>();
         stationsNumberList.add(1);
         mockMvc.perform(get("/flood/stations").param("station_numbers", String.valueOf(stationsNumberList))).andExpect(status().isOk());
-    }
 */
+        String stationsNumberList = "1";
+        mockMvc.perform(get("/flood/stations").param("station_numbers", stationsNumberList)).andExpect(status().isOk());
+    }
+
 
 }

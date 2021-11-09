@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
 import com.Safetynet.Model.Firestations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,13 @@ public class FirestationDAO implements IFirestationDAO{
 
     public void setFirestationsList(List<Firestations> firestationsList) {
         this.firestationsList = firestationsList;
+    }
+
+    @Override
+    public Firestations findByNumber(Integer firestationNumber){
+        return  firestationsList.stream()
+            .filter(f -> f.getStation() == firestationNumber)
+            .findAny().orElseThrow(()-> new FirestationNotFoundExceptions(firestationNumber));
     }
 
     @Override
@@ -43,12 +51,9 @@ public class FirestationDAO implements IFirestationDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Firestations firestationToUpdate = null;
-                for(Firestations f : firestationsList) {
-                    if (f.getAddress().equals(firestations.getAddress())) {
-                        firestationToUpdate = f;
-                    }
-                }
+                Firestations firestationToUpdate = firestationsList.stream()
+                        .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                        .findAny().orElse(null);
                 if(firestationToUpdate == null){
                     LOGGER.error("Firestation non trouvée");
                     throw new NullPointerException();
@@ -71,12 +76,9 @@ public class FirestationDAO implements IFirestationDAO{
                 LOGGER.error("argument null");
                 throw new NullPointerException();
             }else {
-                Firestations firestationToDelete = null;
-                for(Firestations f : firestationsList) {
-                    if (f.getAddress().equals(firestations.getAddress())) {
-                        firestationToDelete = f;
-                    }
-                }
+                Firestations firestationToDelete = firestationsList.stream()
+                        .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                        .findAny().orElse(null);
                 if(firestationToDelete == null){
                     LOGGER.error("ressource non trouvée");
                     throw new NullPointerException();
