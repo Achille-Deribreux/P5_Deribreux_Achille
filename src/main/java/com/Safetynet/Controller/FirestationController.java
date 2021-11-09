@@ -15,13 +15,14 @@ public class FirestationController {
     @Autowired
     FirestationService firestationService;
 
-    @GetMapping(value="/firestation", consumes = "application/json")
+
+    @GetMapping(value="/firestations")
     public ResponseEntity<List<Firestations>> getAllFirestations(){
         return new ResponseEntity<>(firestationService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value="/firestation/{stationNumber}", consumes = "application/json")
-    public ResponseEntity<Firestations> getAllFirestations(@PathVariable Integer stationNumber){
+    @GetMapping(value="/firestations/{stationNumber}")
+    public ResponseEntity<Firestations> getFirestationsByNumber(@PathVariable Integer stationNumber){
         if(firestationService.findByNumber(stationNumber) != null) {
             return new ResponseEntity<>(firestationService.findByNumber(stationNumber), HttpStatus.OK);
         }else {
