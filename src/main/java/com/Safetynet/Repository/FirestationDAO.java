@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
 import com.Safetynet.Model.Firestations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ public class FirestationDAO implements IFirestationDAO{
     public Firestations findByNumber(Integer firestationNumber){
         return  firestationsList.stream()
             .filter(f -> f.getStation() == firestationNumber)
-            .findAny().orElse(null);
+            .findAny().orElseThrow(()-> new FirestationNotFoundExceptions(firestationNumber));
     }
 
     @Override

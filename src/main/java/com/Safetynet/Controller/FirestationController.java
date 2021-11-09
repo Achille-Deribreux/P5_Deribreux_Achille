@@ -25,8 +25,6 @@ public class FirestationController {
     public ResponseEntity<Firestations> getFirestationsByNumber(@PathVariable Integer stationNumber){
         if(stationNumber == null){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }else if(firestationService.findByNumber(stationNumber) == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(firestationService.findByNumber(stationNumber), HttpStatus.OK);
