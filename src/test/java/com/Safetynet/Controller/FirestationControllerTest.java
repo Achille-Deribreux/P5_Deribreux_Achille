@@ -33,6 +33,16 @@ public class FirestationControllerTest {
     }
 
     @Test
+    public void getAllFirestationsTest() throws Exception {
+        mockMvc.perform(get("/firestations")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAllFirestationsByNumberTest() throws Exception {
+        mockMvc.perform(get("/firestations/3")).andExpect(status().isOk());
+    }
+
+    @Test
     public void addFirestationTest() throws Exception {
         mockMvc.perform(post("/firestation").contentType(MediaType.APPLICATION_JSON).content(asJsonString(firestations))).andExpect(status().isCreated());
     }

@@ -30,6 +30,19 @@ public class PersonDAOTest {
     }
 
     @Test
+    public void findByNameTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        Person expected = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@email.com");
+        Person result;
+        //When
+        result = personDAO.findByName(firstName,lastName);
+        //Then
+        assertEquals(expected, result);
+    }
+
+    @Test
     public void addFirestationTest(){
         //Given
         Person personToAdd = PersonDAOTestData.personToAdd();

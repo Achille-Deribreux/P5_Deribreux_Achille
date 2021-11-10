@@ -36,6 +36,17 @@ public class MedicalRecordsControllerTest {
     }
 
     @Test
+    public void getAllMedicalRecordsTest() throws Exception {
+        mockMvc.perform(get("/medicalRecords")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getMedicalRecordByNameTest() throws Exception {
+        mockMvc.perform(get("/medicalRecord").param("firstName", "John")
+                .param("lastName", "Boyd")).andExpect(status().isOk());
+    }
+
+    @Test
     public void addMedicalRecordTest() throws Exception {
         mockMvc.perform(post("/medicalRecord").contentType(MediaType.APPLICATION_JSON).content(asJsonString(medicalRecords))).andExpect(status().isCreated());
     }

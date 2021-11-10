@@ -1,6 +1,7 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Model.MedicalRecords;
+import com.Safetynet.Model.Person;
 import com.Safetynet.Repository.MedicalRecordsDAO;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,6 +22,28 @@ public class MedicalRecordServiceCRUDTest {
 
     @Autowired
     MedicalRecordService medicalRecordService;
+
+    @Test
+    public void findByNameTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        //When
+        when(medicalRecordsDAO.findByName(firstName,lastName)).thenReturn(new MedicalRecords("John", "Boyd", "03/06/1984", List.of("aznol:350mg", "hydrapermazol:100mg"), List.of("nillacilan")));
+        //Then
+        assertEquals(medicalRecordsDAO.findByName(firstName,lastName),medicalRecordService.findByName(firstName,lastName));
+    }
+
+    @Test
+    public void findByNameCallTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        //When
+        medicalRecordService.findByName(firstName,lastName);
+        //Then
+        verify(medicalRecordsDAO, Mockito.times(1)).findByName(firstName,lastName);
+    }
 
     @Test
     public void addMedicalRecordsTest(){

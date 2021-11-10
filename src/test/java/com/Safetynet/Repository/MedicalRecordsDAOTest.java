@@ -32,6 +32,19 @@ public class MedicalRecordsDAOTest {
     }
 
     @Test
+    public void findByNameTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        MedicalRecords expected = new MedicalRecords("John", "Boyd", "03/06/1984", List.of("aznol:350mg", "hydrapermazol:100mg"), List.of("nillacilan"));
+        MedicalRecords result;
+        //When
+        result = medicalRecordsDAO.findByName(firstName,lastName);
+        //Then
+        assertEquals(expected, result);
+    }
+
+    @Test
     public void addFirestationTest(){
         //Given
         MedicalRecords medicalRecordsToAdd = MedicalRecordsDAOTestData.medicalRecordsToAdd();

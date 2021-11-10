@@ -31,6 +31,18 @@ public class FirestationDAOTest {
     }
 
     @Test
+    public void findByNumberTest(){
+        //Given
+        Integer number = 3;
+        Firestations expected = new Firestations("1509 Culver St", 3);
+        Firestations result;
+        //When
+        result = firestationDAO.findByNumber(number);
+        //Then
+        assertEquals(expected,result);
+    }
+
+    @Test
     public void addFirestationTest(){
         //Given
         Firestations firestationToAdd = FirestationDAOTestData.firestationToAdd();
