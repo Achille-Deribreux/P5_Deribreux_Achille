@@ -3,6 +3,10 @@ package com.Safetynet.Repository;
 import com.Safetynet.Data.GeneralData;
 import com.Safetynet.Data.MedicalRecordsDAOTestData;
 import com.Safetynet.Data.PersonDAOTestData;
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsAlreadyExistsException;
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
+import com.Safetynet.Exceptions.CustomExceptions.PersonAlreadyExistsException;
+import com.Safetynet.Exceptions.CustomExceptions.PersonNotFoundException;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Model.Person;
@@ -15,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class MedicalRecordsDAOTest {
@@ -45,7 +50,16 @@ public class MedicalRecordsDAOTest {
     }
 
     @Test
-    public void addFirestationTest(){
+    public void medicalRecordNotFoundFindByNameTest(){
+        //Given
+        String firstName = "a";
+        String lastName = "b";
+        //When & Then
+        assertThrows(MedicalRecordsNotFoundException.class, () -> medicalRecordsDAO.findByName(firstName,lastName));
+    }
+
+    @Test
+    public void addMedicalRecordTest(){
         //Given
         MedicalRecords medicalRecordsToAdd = MedicalRecordsDAOTestData.medicalRecordsToAdd();
         List<MedicalRecords> expected = MedicalRecordsDAOTestData.getMedicalRecordsListWithAddedMedicalRecord();
@@ -56,7 +70,15 @@ public class MedicalRecordsDAOTest {
     }
 
     @Test
-    public void editFirestationTest(){
+    public void addAlreadyInMedicalRecordTest(){
+        //Given
+       MedicalRecords alreadyInMedicalRecord =  new MedicalRecords("John", "Boyd", "03/06/1984", List.of("aznol:350mg", "hydrapermazol:100mg"), List.of("nillacilan"));
+        //When & Then
+        assertThrows(MedicalRecordsAlreadyExistsException.class, () -> medicalRecordsDAO.addMedicalRecords(alreadyInMedicalRecord));
+    }
+
+    @Test
+    public void editMedicalRecordTest(){
         //Given
         MedicalRecords medicalRecordsToEdit = MedicalRecordsDAOTestData.medicalRecordsToEdit();
         List<MedicalRecords> expected = MedicalRecordsDAOTestData.getMedicalRecordsListWithEditedMedicalRecord();
@@ -67,7 +89,15 @@ public class MedicalRecordsDAOTest {
     }
 
     @Test
-    public void deleteFirestationTest(){
+    public void medicalRecordNotFoundEditTest(){
+        //Given
+        MedicalRecords medicalRecordNotInList = MedicalRecordsDAOTestData.medicalRecordsToAdd();
+        //When & Then
+        assertThrows(MedicalRecordsNotFoundException.class, () -> medicalRecordsDAO.editMedicalRecords(medicalRecordNotInList));
+    }
+
+    @Test
+    public void deleteMedicalRecordTest(){
         //Given
         MedicalRecords medicalRecordsToDelete = MedicalRecordsDAOTestData.medicalRecordsToDelete();
         List<MedicalRecords> expected = MedicalRecordsDAOTestData.getMedicalRecordsListWithDeletedMedicalRecord();
@@ -75,5 +105,13 @@ public class MedicalRecordsDAOTest {
         medicalRecordsDAO.deleteMedicalRecords(medicalRecordsToDelete);
         //Then
         assertEquals(expected,medicalRecordsDAO.getMedicalRecordsList());
+    }
+
+    @Test
+    public void medicalRecordNotFoundDeleteTest(){
+        //Given
+        MedicalRecords medicalRecordNotInList = MedicalRecordsDAOTestData.medicalRecordsToAdd();
+        //When & Then
+        assertThrows(MedicalRecordsNotFoundException.class, () -> medicalRecordsDAO.deleteMedicalRecords(medicalRecordNotInList));
     }
 }

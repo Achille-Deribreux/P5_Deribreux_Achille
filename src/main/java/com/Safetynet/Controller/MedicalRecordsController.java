@@ -22,12 +22,7 @@ public class MedicalRecordsController {
 
     @GetMapping(value ="/medicalRecord")
     public ResponseEntity<MedicalRecords> getMedicalRecordByName(@RequestParam String firstName,@RequestParam String lastName){
-        if(firstName == null || lastName == null){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-        else {
-            return new ResponseEntity<>(medicalRecordService.findByName(firstName, lastName), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(medicalRecordService.findByName(firstName, lastName), HttpStatus.OK);
     }
 
     @PostMapping(value = "/medicalRecord", consumes = "application/json", produces = "application/json")

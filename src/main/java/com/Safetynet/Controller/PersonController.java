@@ -23,12 +23,7 @@ public class PersonController {
 
     @GetMapping(value="/person")
     public ResponseEntity<Person> getPersonByName(@RequestParam String firstName,@RequestParam String lastName){
-        if(firstName == null || lastName == null){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-        else {
             return new ResponseEntity<>(personService.findByName(firstName, lastName), HttpStatus.OK);
-        }
     }
 
     @PostMapping(value="/person", consumes = "application/json", produces = "application/json")

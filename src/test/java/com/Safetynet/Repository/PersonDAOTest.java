@@ -2,6 +2,8 @@ package com.Safetynet.Repository;
 
 import com.Safetynet.Data.GeneralData;
 import com.Safetynet.Data.PersonDAOTestData;
+import com.Safetynet.Exceptions.CustomExceptions.PersonAlreadyExistsException;
+import com.Safetynet.Exceptions.CustomExceptions.PersonNotFoundException;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.Person;
 import com.Safetynet.Utils.Dataloader;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class PersonDAOTest {
@@ -43,7 +46,16 @@ public class PersonDAOTest {
     }
 
     @Test
-    public void addFirestationTest(){
+    public void personNotFoundFindByNameTest(){
+        //Given
+        String firstName = "a";
+        String lastName = "b";
+        //When & Then
+        assertThrows(PersonNotFoundException.class, () -> personDAO.findByName(firstName,lastName));
+    }
+
+    @Test
+    public void addPersonTest(){
         //Given
         Person personToAdd = PersonDAOTestData.personToAdd();
         List<Person> expected = PersonDAOTestData.getPersonListWithAddedPerson();
@@ -54,7 +66,15 @@ public class PersonDAOTest {
     }
 
     @Test
-    public void editFirestationTest(){
+    public void addAlreadyInPersonTest(){
+        //Given
+        Person alreadyInPerson = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@email.com");
+        //When & Then
+        assertThrows(PersonAlreadyExistsException.class, () -> personDAO.addPerson(alreadyInPerson));
+    }
+
+    @Test
+    public void editPersonTest(){
         //Given
         Person personToEdit = PersonDAOTestData.personToEdit();
         List<Person> expected = PersonDAOTestData.getPersonListWithEditedPerson();
@@ -65,7 +85,15 @@ public class PersonDAOTest {
     }
 
     @Test
-    public void deleteFirestationTest(){
+    public void personNotFoundEditTest(){
+        //Given
+        Person personNotInList = PersonDAOTestData.personToAdd();
+        //When & Then
+        assertThrows(PersonNotFoundException.class, () -> personDAO.editPerson(personNotInList));
+    }
+
+    @Test
+    public void deletePersonTest(){
         //Given
         Person personToDelete = PersonDAOTestData.personToDelete();
         List<Person> expected = PersonDAOTestData.getPersonListWithDeletedPerson();
@@ -73,5 +101,13 @@ public class PersonDAOTest {
         personDAO.deletePerson(personToDelete);
         //Then
         assertEquals(expected,personDAO.getPersonList());
+    }
+
+    @Test
+    public void personNotFoundDeleteTest(){
+        //Given
+        Person personNotInList = PersonDAOTestData.personToAdd();
+        //When & Then
+        assertThrows(PersonNotFoundException.class, () -> personDAO.deletePerson(personNotInList));
     }
 }
