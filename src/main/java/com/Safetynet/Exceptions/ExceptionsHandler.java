@@ -1,8 +1,6 @@
 package com.Safetynet.Exceptions;
 
-import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
-import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
-import com.Safetynet.Exceptions.CustomExceptions.PersonNotFoundException;
+import com.Safetynet.Exceptions.CustomExceptions.*;
 import com.Safetynet.Model.CustomErrorResponse;
 import com.Safetynet.Model.MedicalRecords;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +16,30 @@ import java.time.ZonedDateTime;
 public class ExceptionsHandler {
     private static final Logger logger = LogManager.getLogger(ExceptionsHandler.class);
 
+    //ALREADY EXISTS EXCEPTIONS
+    @ExceptionHandler(FirestationAlreadyExistsException.class)
+    public ResponseEntity<Object> handleFirestationAlreadyExistsExceptions(FirestationAlreadyExistsException e){
+        logger.error("Firestation Already exists");
+        CustomErrorResponse res = new CustomErrorResponse(e.getMessage(),e, HttpStatus.CONFLICT, ZonedDateTime.now());
+        return new ResponseEntity<>(res,HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PersonAlreadyExistsException.class)
+    public ResponseEntity<Object> handlePersonAlreadyExistsExceptions(PersonAlreadyExistsException e){
+        logger.error("Person Already exists");
+        CustomErrorResponse res = new CustomErrorResponse(e.getMessage(),e, HttpStatus.CONFLICT, ZonedDateTime.now());
+        return new ResponseEntity<>(res,HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MedicalRecordsAlreadyExistsException.class)
+    public ResponseEntity<Object> handleMedicalRecordAlreadyExistsExceptions(MedicalRecordsAlreadyExistsException e){
+        logger.error("MedicalRecord Already exists");
+        CustomErrorResponse res = new CustomErrorResponse(e.getMessage(),e, HttpStatus.CONFLICT, ZonedDateTime.now());
+        return new ResponseEntity<>(res,HttpStatus.CONFLICT);
+    }
+
+
+    //NOT FOUND EXCEPTIONS
     @ExceptionHandler(FirestationNotFoundExceptions.class)
     public ResponseEntity<Object> handleFirestationNotFoundExceptions(FirestationNotFoundExceptions e){
         logger.error("Firestation Not Found");

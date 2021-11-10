@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.FirestationAlreadyExistsException;
 import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
 import com.Safetynet.Model.Firestations;
 import org.apache.logging.log4j.LogManager;
@@ -29,19 +30,13 @@ public class FirestationDAO implements IFirestationDAO{
 
     @Override
     public Firestations addFirestations(Firestations firestations) {
-        try{
-            if(firestations == null){
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                firestationsList.add(firestations);
-                LOGGER.info("ressource bien ajoutée");
-                return firestations;
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible d'ajouter la ressource", e);
+        if(firestationsList.stream().anyMatch(f->f.getAddress().equals(firestations.getAddress()))){
+            throw new FirestationAlreadyExistsException(firestations.getAddress());
+        }else {
+            firestationsList.add(firestations);
+            LOGGER.info("ressource bien ajoutée");
+            return firestations;
         }
-        return null;//TODO : change return statement
     }
 
     @Override

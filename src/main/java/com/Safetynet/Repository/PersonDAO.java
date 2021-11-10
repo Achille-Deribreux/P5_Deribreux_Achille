@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.PersonAlreadyExistsException;
 import com.Safetynet.Exceptions.CustomExceptions.PersonNotFoundException;
 import com.Safetynet.Model.Person;
 import org.apache.logging.log4j.Logger;
@@ -32,19 +33,13 @@ public class PersonDAO implements IPersonDAO{
 
     @Override
     public Person addPerson(Person person) {
-        try {
-            if (person == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                personList.add(person);
-                LOGGER.info("personne bien ajouté");
-                return person;
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible d'ajouter une personne", e);
+        if (personList.stream().anyMatch(p->p.getFirstName().equals(person.getFirstName())&&p.getLastName().equals(person.getLastName()))) {
+            throw new PersonAlreadyExistsException(person.getFirstName(),person.getLastName());
+        }else {
+            personList.add(person);
+            LOGGER.info("personne bien ajouté");
+            return person;
         }
-        return null;//TODO : change return statement
     }
 
     @Override

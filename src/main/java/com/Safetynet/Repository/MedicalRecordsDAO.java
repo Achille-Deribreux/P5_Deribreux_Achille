@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsAlreadyExistsException;
 import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
 import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Model.Person;
@@ -29,21 +30,17 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
     }
 
 
+
+
     @Override
     public MedicalRecords addMedicalRecords(MedicalRecords medicalRecords) {
-        try {
-            if (medicalRecords == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                medicalRecordsList.add(medicalRecords);
-                LOGGER.info("ressource bien ajoutée");
-                return medicalRecords;
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible d'ajouter la ressource", e);
+        if (medicalRecordsList.stream().anyMatch(m->m.getFirstName().equals(medicalRecords.getFirstName())&&m.getLastName().equals(medicalRecords.getLastName()))) {
+            throw new MedicalRecordsAlreadyExistsException(medicalRecords.getFirstName(),medicalRecords.getLastName());
+        }else {
+            medicalRecordsList.add(medicalRecords);
+            LOGGER.info("ressource bien ajoutée");
+            return medicalRecords;
         }
-        return null;//TODO : change return statement
     }
 
     @Override
