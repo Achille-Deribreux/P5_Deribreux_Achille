@@ -1,5 +1,7 @@
 package com.Safetynet.Service;
 
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundByAddressException;
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
 import com.Safetynet.Model.Firestations;
 import com.Safetynet.Model.Specific.Fire;
 import com.Safetynet.Repository.FirestationDAO;
@@ -26,22 +28,16 @@ public class FirestationService implements IFirestationService {
 
     @Override
     public String findAddressByNumber(Integer firestationNumber){
-        for(Firestations firestation : firestationDAO.getFirestationsList()){
-            if(firestation.getStation() == firestationNumber){
-                return firestation.getAddress();
-            }
-        }
-        return null;
+        return findAll().stream()
+                .filter(f->f.getStation()==firestationNumber).findAny()
+                .orElseThrow(()->new FirestationNotFoundExceptions(firestationNumber)).getAddress();
     }
 
     @Override
     public Integer findNumberByAddress(String address){
-        for (Firestations firestation : firestationDAO.getFirestationsList()){
-            if(firestation.getAddress().equals(address)){
-                return firestation.getStation();
-            }
-        }
-        return null;
+        return findAll().stream()
+                .filter(f->f.getAddress().equals(address)).findAny()
+                .orElseThrow(()->new FirestationNotFoundByAddressException(address)).getStation();
     }
 
     @Override
