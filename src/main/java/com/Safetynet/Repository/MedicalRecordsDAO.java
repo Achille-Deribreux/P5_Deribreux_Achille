@@ -45,27 +45,12 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
 
     @Override
     public MedicalRecords editMedicalRecords(MedicalRecords medicalRecords) {
-        try{
-            if (medicalRecords == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                MedicalRecords medicalRecordsToUpdate = medicalRecordsList.stream()
-                        .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
-                        .findAny().orElse(null);
-                if(medicalRecordsToUpdate == null){
-                    LOGGER.error("MedicalRecord non trouvé");
-                    throw new NullPointerException();
-                }else {
-                    medicalRecordsList.set(medicalRecordsList.indexOf(medicalRecordsToUpdate),medicalRecords);
-                    LOGGER.info("MedicalRecord bien modifié");
-                    return medicalRecords;
-                }
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible de modifier un medicalRecord", e);
-        }
-        return null;//TODO : change return statement
+        MedicalRecords medicalRecordsToUpdate = medicalRecordsList.stream()
+                .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
+                .findAny().orElseThrow(()-> new MedicalRecordsNotFoundException(medicalRecords.getFirstName(),medicalRecords.getLastName()));
+        medicalRecordsList.set(medicalRecordsList.indexOf(medicalRecordsToUpdate),medicalRecords);
+        LOGGER.info("MedicalRecord bien modifié");
+        return medicalRecords;
     }
 
     @Override

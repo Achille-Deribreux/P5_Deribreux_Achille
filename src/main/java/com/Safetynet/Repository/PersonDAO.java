@@ -44,27 +44,12 @@ public class PersonDAO implements IPersonDAO{
 
     @Override
     public Person editPerson(Person person) {
-        try{
-            if (person == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                Person personToUpdate = personList.stream()
-                        .filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
-                        .findAny().orElse(null);
-                if(personToUpdate == null){
-                    LOGGER.error("person non trouvée");
-                    throw new NullPointerException();
-                }else {
-                    personList.set(personList.indexOf(personToUpdate), person);
-                    LOGGER.info("person bien modifiée");
-                    return person;
-                }
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible de modifier une personne", e);
-        }
-        return null;//TODO : change return statement
+        Person personToUpdate = personList.stream()
+                .filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
+                .findAny().orElseThrow(()-> new PersonNotFoundException(person.getFirstName(),person.getLastName()));
+        personList.set(personList.indexOf(personToUpdate), person);
+        LOGGER.info("person bien modifiée");
+        return person;
     }
 
     @Override

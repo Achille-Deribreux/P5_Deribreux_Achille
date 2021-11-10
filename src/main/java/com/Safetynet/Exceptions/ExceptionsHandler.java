@@ -47,6 +47,13 @@ public class ExceptionsHandler {
         return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(FirestationNotFoundByAddressException.class)
+    public ResponseEntity<Object> handleFirestationByAddressNotFoundExceptions(FirestationNotFoundByAddressException e){
+        logger.error("Firestation Not Found");
+        CustomErrorResponse res = new CustomErrorResponse(e.getMessage(),e, HttpStatus.NOT_FOUND, ZonedDateTime.now());
+        return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(PersonNotFoundException.class)
     public ResponseEntity<Object> handlePersonNotFoundExceptions(PersonNotFoundException e){
         logger.error("Person Not Found");
