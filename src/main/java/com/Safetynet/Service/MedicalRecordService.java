@@ -1,5 +1,6 @@
 package com.Safetynet.Service;
 
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
 import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Repository.MedicalRecordsDAO;
 
@@ -23,12 +24,11 @@ public class MedicalRecordService implements IMedicalRecordService{
     }
 
     public Integer findAgeFromName (String firstName, String lastName){
-        for(MedicalRecords medicalRecords : findAll()){
-            if(medicalRecords.getFirstName().equals(firstName)&&medicalRecords.getLastName().equals(lastName)){
-                return findAgeFromBirthdate(medicalRecords.getBirthdate());
-            }
-        }
-        return null;
+        MedicalRecords medicalRecordsObject = findAll().stream()
+                .filter(medicalRecords -> medicalRecords.getFirstName().equals(firstName)&&medicalRecords.getLastName().equals(lastName))
+                .findAny().orElseThrow(()-> new MedicalRecordsNotFoundException(firstName, lastName));
+        return findAgeFromBirthdate(medicalRecordsObject.getBirthdate());
+
     }
 
     public Integer findAgeFromBirthdate(String birthdate){
