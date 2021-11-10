@@ -25,8 +25,6 @@ public class PersonController {
     public ResponseEntity<Person> getPersonByName(@RequestParam String firstName,@RequestParam String lastName){
         if(firstName == null || lastName == null){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }else if(personService.findByName(firstName,lastName) == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(personService.findByName(firstName, lastName), HttpStatus.OK);
@@ -37,7 +35,8 @@ public class PersonController {
     public ResponseEntity<String> addPerson(@RequestBody Person person) {
         if(person == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             personService.addPerson(person);
             return new ResponseEntity<>("Person added successfully", HttpStatus.CREATED);
         }
@@ -47,7 +46,8 @@ public class PersonController {
     public ResponseEntity<String> editPerson(@RequestBody Person person) {
         if(person == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             personService.editPerson(person);
             return new ResponseEntity<>("Person updated successfully", HttpStatus.OK);
         }
@@ -57,7 +57,8 @@ public class PersonController {
     public ResponseEntity<String> deletePerson(@RequestBody Person person) {
         if(person == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             personService.deletePerson(person);
             return new ResponseEntity<>("Person deleted successfully", HttpStatus.OK);
         }

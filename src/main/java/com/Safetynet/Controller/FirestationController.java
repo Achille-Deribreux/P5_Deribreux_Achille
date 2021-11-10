@@ -35,7 +35,8 @@ public class FirestationController {
     public ResponseEntity<String> addFirestation(@RequestBody Firestations firestations){
         if(firestations == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             firestationService.addFirestation(firestations);
             return new ResponseEntity<>("Content added successfully", HttpStatus.CREATED);
         }
@@ -45,7 +46,8 @@ public class FirestationController {
     public ResponseEntity<String> editFirestation(@RequestBody Firestations firestations){
         if(firestations == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             firestationService.editFirestation(firestations);
             return new ResponseEntity<>("Content update successfully", HttpStatus.OK);
         }
@@ -55,7 +57,8 @@ public class FirestationController {
     public ResponseEntity<String> deleteFirestation(@RequestBody Firestations firestations){
         if(firestations == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             firestationService.deleteFirestation(firestations);
             return new ResponseEntity<>("Content deleted successfully", HttpStatus.OK);
         }

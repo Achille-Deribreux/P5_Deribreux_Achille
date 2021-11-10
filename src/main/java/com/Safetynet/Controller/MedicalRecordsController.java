@@ -24,8 +24,6 @@ public class MedicalRecordsController {
     public ResponseEntity<MedicalRecords> getMedicalRecordByName(@RequestParam String firstName,@RequestParam String lastName){
         if(firstName == null || lastName == null){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }else if(medicalRecordService.findByName(firstName,lastName) == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(medicalRecordService.findByName(firstName, lastName), HttpStatus.OK);
@@ -36,7 +34,8 @@ public class MedicalRecordsController {
     public ResponseEntity<String> addMedicalRecord(@RequestBody MedicalRecords medicalRecords){
         if(medicalRecords == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             medicalRecordService.addMedicalRecords(medicalRecords);
             return new ResponseEntity<>("Content added successfully", HttpStatus.CREATED);
         }
@@ -46,7 +45,8 @@ public class MedicalRecordsController {
     public ResponseEntity<String> editMedicalRecord(@RequestBody MedicalRecords medicalRecords){
         if(medicalRecords == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             medicalRecordService.editMedicalRecords(medicalRecords);
             return new ResponseEntity<>("Content updated successfully", HttpStatus.OK);
         }
@@ -56,7 +56,8 @@ public class MedicalRecordsController {
     public ResponseEntity<String> deleteMedicalRecord(@RequestBody MedicalRecords medicalRecords){
         if(medicalRecords == null) {
             return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }else {
+        }
+        else {
             medicalRecordService.deleteMedicalRecords(medicalRecords);
             return new ResponseEntity<>("Content deleted successfully", HttpStatus.OK);
         }

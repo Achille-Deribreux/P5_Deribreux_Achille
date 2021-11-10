@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
 import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Model.Person;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +25,7 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
     public MedicalRecords findByName(String firstName, String lastName){
         return  medicalRecordsList.stream()
                 .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
-                .findAny().orElse(null);
+                .findAny().orElseThrow(()-> new MedicalRecordsNotFoundException(firstName,lastName));
     }
 
 

@@ -1,5 +1,6 @@
 package com.Safetynet.Repository;
 
+import com.Safetynet.Exceptions.CustomExceptions.PersonNotFoundException;
 import com.Safetynet.Model.Person;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ public class PersonDAO implements IPersonDAO{
     public Person findByName(String firstName, String lastName){
         return  personList.stream()
                 .filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
-                .findAny().orElse(null);
+                .findAny().orElseThrow(()->new PersonNotFoundException(firstName, lastName));
     }
 
     @Override
