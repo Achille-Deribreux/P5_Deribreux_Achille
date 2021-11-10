@@ -55,24 +55,10 @@ public class MedicalRecordsDAO implements IMedicalRecordDAO{
 
     @Override
     public void deleteMedicalRecords(MedicalRecords medicalRecords) {
-        try{
-            if (medicalRecords == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                MedicalRecords medicalRecordsToDelete = medicalRecordsList.stream()
-                        .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
-                        .findAny().orElse(null);
-                if(medicalRecordsToDelete == null){
-                    LOGGER.error("ressource non trouvée");
-                    throw new NullPointerException();
-                }else {
-                    medicalRecordsList.remove(medicalRecordsToDelete);
-                    LOGGER.info("MedicalRecord bien supprimé");
-                }
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible de supprimer un medicalRecord", e);
-        }
+        MedicalRecords medicalRecordsToDelete = medicalRecordsList.stream()
+                .filter(m -> m.getFirstName().equals(medicalRecords.getFirstName()) && m.getLastName().equals(medicalRecords.getLastName()))
+                .findAny().orElseThrow(()->new MedicalRecordsNotFoundException(medicalRecords.getFirstName(),medicalRecords.getLastName()));
+            medicalRecordsList.remove(medicalRecordsToDelete);
+            LOGGER.info("MedicalRecord bien supprimé");
     }
 }

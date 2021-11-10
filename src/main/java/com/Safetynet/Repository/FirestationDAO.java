@@ -52,24 +52,10 @@ public class FirestationDAO implements IFirestationDAO{
 
     @Override
     public void deleteFirestations(Firestations firestations) {
-        try{
-            if (firestations == null) {
-                LOGGER.error("argument null");
-                throw new NullPointerException();
-            }else {
-                Firestations firestationToDelete = firestationsList.stream()
-                        .filter(f -> f.getAddress().equals(firestations.getAddress()))
-                        .findAny().orElse(null);
-                if(firestationToDelete == null){
-                    LOGGER.error("ressource non trouvée");
-                    throw new NullPointerException();
-                }else {
-                    firestationsList.remove(firestationToDelete);
-                    LOGGER.info("Firestation bien supprimée");
-                }
-            }
-        }catch(Exception e){
-            LOGGER.error("impossible de supprimer une Firestation", e);
-        }
+        Firestations firestationToDelete = firestationsList.stream()
+                .filter(f -> f.getAddress().equals(firestations.getAddress()))
+                .findAny().orElseThrow(() -> new FirestationNotFoundByAddressException(firestations.getAddress()));
+        firestationsList.remove(firestationToDelete);
+        LOGGER.info("Firestation bien supprimée");
     }
 }
