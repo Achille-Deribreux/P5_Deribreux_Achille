@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +76,11 @@ public class AlertService implements IAlertService{
                 }
             }
         }
-        //TODO : Retour vide si pas d'enfants
-        return new ChildAlert(childrenList, adultsList);
+        if (childrenList.size() != 0) {
+            return new ChildAlert(childrenList, adultsList);
+        }else {
+            return new ChildAlert();
+        }
     }
 
     @Override

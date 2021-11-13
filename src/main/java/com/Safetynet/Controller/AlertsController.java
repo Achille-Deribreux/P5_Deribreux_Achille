@@ -43,7 +43,7 @@ public class AlertsController {
         LOGGER.info("Requête reçue à /personInfo");
         return new ResponseEntity<>(alertService.getFullInfoPersonByName(firstName,lastName), HttpStatus.OK);
     }
-    //TODO : SI 3 EN PARAMS, ça passe pas
+
     @GetMapping(value="/firestation")
     public ResponseEntity<ListByFirestation> showPersonsListByFirestation(@RequestParam(value = "stationNumber") Integer stationNumber){
         LOGGER.info("Requête reçue à /firestation");
