@@ -1,5 +1,6 @@
 package com.Safetynet.Service;
 
+import com.Safetynet.Controller.AlertsController;
 import com.Safetynet.Model.Person;
 import com.Safetynet.Model.Specific.ChildAlert;
 import com.Safetynet.Model.Specific.Fire;
@@ -9,6 +10,8 @@ import com.Safetynet.Model.Specific.utils.FullInfoPerson;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAdressPhone;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAge;
 import com.Safetynet.Model.Specific.utils.PersonWithNameAgeMedRecs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.List;
 
 @Service
 public class AlertService implements IAlertService{
+
+    private static final Logger LOGGER = LogManager.getLogger(AlertService.class);
 
     @Autowired
     PersonService personService;
@@ -33,19 +38,25 @@ public class AlertService implements IAlertService{
         List<PersonWithNameAdressPhone> personWithNameAddressPhoneList = new ArrayList<>();
         int childrenCounter = 0;
         int adultsCounter = 0;
+        LOGGER.debug("Array+childrenCounter+AdultsCounter initialized on empty/0");
         String firestationAddress = firestationService.findAddressByNumber(firestation);
 
         for(Person person : personService.findAll()){
+            LOGGER.debug("Start stream personService.findAll()");
             if (person.getAddress().equals(firestationAddress)){
+                LOGGER.debug("Person address is matching !");
                 personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
                 if (medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) < 18){
                     childrenCounter ++;
+                    LOGGER.debug("ChildrenCounter incremented");
                 }
                 else if(medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()) > 18){
                     adultsCounter ++;
+                    LOGGER.debug("adultsCounter incremented");
                 }
             }
         }
+        LOGGER.debug("end for, return arrayList & counters");
         return new ListByFirestation(personWithNameAddressPhoneList, adultsCounter, childrenCounter);
     }
 

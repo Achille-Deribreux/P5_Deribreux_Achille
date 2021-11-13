@@ -14,12 +14,14 @@ import java.util.List;
 public class FirestationDAO implements IFirestationDAO{
     private List<Firestations> firestationsList;
     private static final Logger LOGGER = LogManager.getLogger(FirestationDAO.class);
+
     public List<Firestations> getFirestationsList() {
         return firestationsList;
     }
 
     public void setFirestationsList(List<Firestations> firestationsList) {
         this.firestationsList = firestationsList;
+        LOGGER.info("FirestationList set !");
     }
 
     @Override
