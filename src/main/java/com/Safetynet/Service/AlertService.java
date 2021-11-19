@@ -53,8 +53,8 @@ public class AlertService implements IAlertService{
         LOGGER.debug("Array+childrenCounter+AdultsCounter initialized on empty/0");
         String firestationAddress = firestationService.findAddressByNumber(firestation);
 
+        LOGGER.debug("Start stream personService.findAll()");
         for(Person person : personService.findAll()){
-            LOGGER.debug("Start stream personService.findAll()");
             if (person.getAddress().equals(firestationAddress)){
                 LOGGER.debug("Person address is matching !");
                 personWithNameAddressPhoneList.add(new PersonWithNameAdressPhone(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone()));
@@ -78,8 +78,8 @@ public class AlertService implements IAlertService{
         List<PersonWithNameAge> adultsList = new ArrayList<>();
         List<PersonWithNameAge> childrenList = new ArrayList<>();
 
+        LOGGER.debug("start loop on personService.findAll()");
         for(Person person : personService.findAll()){
-            LOGGER.debug("start loop on personService.findAll()");
             if(person.getAddress().equals(address)){
                 LOGGER.debug("Person address" + person.getAddress()+ "is matching");
                 PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()));
@@ -106,8 +106,8 @@ public class AlertService implements IAlertService{
         String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
         List<String> phoneNumberList = new ArrayList<>();
 
+        LOGGER.debug("start loop on personService.findAll()");
         for(Person person : personService.findAll()){
-            LOGGER.debug("start loop on personService.findAll()");
             if(person.getAddress().equals(firestationAddress)){
                 LOGGER.debug("Person address is matching :"+person.getAddress());
                 phoneNumberList.add(person.getPhone());
@@ -170,8 +170,8 @@ public class AlertService implements IAlertService{
     public List<FullInfoPerson> getFullInfoPersonByName(String firstName, String lastName){
         List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
 
+        LOGGER.debug("Loop started on personService.findAll()");
         for (Person person : personService.findAll()){
-            LOGGER.debug("Loop started on personService.findAll()");
             if(person.getFirstName().equals(firstName)&&person.getLastName().equals(lastName)){
                 LOGGER.debug("Name :" +firstName+" "+lastName+" is equal to "+person.getFirstName()+" "+person.getLastName());
                 fullInfoPersonList.add(new FullInfoPerson(
@@ -192,8 +192,8 @@ public class AlertService implements IAlertService{
     public List<String> getEmailListByCity(String city){
         List<String> emailList = new ArrayList<>();
 
+        LOGGER.debug("Loop started on personService.findAll()");
         for(Person person : personService.findAll()){
-            LOGGER.debug("Loop started on personService.findAll()");
             if(person.getCity().equals(city)){
                 LOGGER.debug("personCity :" +city+" matches "+person.getCity());
                 emailList.add(person.getEmail());
