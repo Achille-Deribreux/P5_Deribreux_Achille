@@ -74,22 +74,29 @@ public class AlertService implements IAlertService{
 
     @Override
     public ChildAlert getChildsAndAdultsByAddress(String address){
+        LOGGER.debug("Initialize adults & Childrenlists");
         List<PersonWithNameAge> adultsList = new ArrayList<>();
         List<PersonWithNameAge> childrenList = new ArrayList<>();
 
         for(Person person : personService.findAll()){
+            LOGGER.debug("start loop on personService.findAll()");
             if(person.getAddress().equals(address)){
+                LOGGER.debug("Person address" + person.getAddress()+ "is matching");
                 PersonWithNameAge personToAdd = new PersonWithNameAge(person.getFirstName(), person.getLastName(), medicalRecordService.findAgeFromName(person.getFirstName(), person.getLastName()));
                 if(personToAdd.getAge() < 18){
+                    LOGGER.debug("Add person to childrenList beacause age is "+ personToAdd.getAge());
                     childrenList.add(personToAdd);
                 }else if(personToAdd.getAge() > 18){
+                    LOGGER.debug("Add person to adultsList beacause age is "+ personToAdd.getAge());
                     adultsList.add(personToAdd);
                 }
             }
         }
         if (childrenList.size() != 0) {
+            LOGGER.debug("return ChildAlert");
             return new ChildAlert(childrenList, adultsList);
         }else {
+            LOGGER.debug("no childrens in the list, return empty ChildAlert");
             return new ChildAlert();
         }
     }
@@ -100,7 +107,9 @@ public class AlertService implements IAlertService{
         List<String> phoneNumberList = new ArrayList<>();
 
         for(Person person : personService.findAll()){
+            LOGGER.debug("start loop on personService.findAll()");
             if(person.getAddress().equals(firestationAddress)){
+                LOGGER.debug("Person address is matching :"+person.getAddress());
                 phoneNumberList.add(person.getPhone());
             }
         }
@@ -110,10 +119,12 @@ public class AlertService implements IAlertService{
     @Override
     public Fire getPersonByAddress(String address){
         Integer firestationNumber = firestationService.findNumberByAddress(address);
+        LOGGER.debug("get firestation number : "+firestationNumber);
         List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
 
         for(Person person : personService.findAll()){
             if (person.getAddress().equals(address)){
+                LOGGER.debug("person address : "+person.getAddress()+" matches with firestationAddress "+ address);
                 personWithNameAgeMedRecsList.add(new PersonWithNameAgeMedRecs(
                         person.getFirstName(),
                         person.getLastName(),
@@ -133,10 +144,12 @@ public class AlertService implements IAlertService{
 
         for(Integer firestationNumber : firestationNumberList){
             String firestationAddress = firestationService.findAddressByNumber(firestationNumber);
+            LOGGER.debug("FirestationAddress is " +firestationAddress);
             List<PersonWithNameAgeMedRecs> personWithNameAgeMedRecsList = new ArrayList<>();
 
             for (Person person : personService.findAll()){
                 if(person.getAddress().equals(firestationAddress)){
+                    LOGGER.debug("Person address match ! "+ person.getAddress());
                     personWithNameAgeMedRecsList.add(new PersonWithNameAgeMedRecs(
                             person.getFirstName(),
                             person.getLastName(),
@@ -148,6 +161,7 @@ public class AlertService implements IAlertService{
                 }
             }
             floodList.add(new Flood(firestationAddress,personWithNameAgeMedRecsList));
+            LOGGER.debug("Flood : "+new Flood(firestationAddress,personWithNameAgeMedRecsList)+" added to floodList");
         }
         return floodList;
     }
@@ -157,7 +171,9 @@ public class AlertService implements IAlertService{
         List<FullInfoPerson> fullInfoPersonList = new ArrayList<>();
 
         for (Person person : personService.findAll()){
+            LOGGER.debug("Loop started on personService.findAll()");
             if(person.getFirstName().equals(firstName)&&person.getLastName().equals(lastName)){
+                LOGGER.debug("Name :" +firstName+" "+lastName+" is equal to "+person.getFirstName()+" "+person.getLastName());
                 fullInfoPersonList.add(new FullInfoPerson(
                         person.getFirstName(),
                         person.getLastName(),
@@ -168,6 +184,7 @@ public class AlertService implements IAlertService{
                 ));
             }
         }
+        LOGGER.debug("Return fullinfoPersonList "+fullInfoPersonList);
         return fullInfoPersonList;
     }
 
@@ -176,10 +193,13 @@ public class AlertService implements IAlertService{
         List<String> emailList = new ArrayList<>();
 
         for(Person person : personService.findAll()){
+            LOGGER.debug("Loop started on personService.findAll()");
             if(person.getCity().equals(city)){
+                LOGGER.debug("personCity :" +city+" matches "+person.getCity());
                 emailList.add(person.getEmail());
             }
         }
+        LOGGER.debug("Return emailList "+emailList);
         return emailList;
     }
 
