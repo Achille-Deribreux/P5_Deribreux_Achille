@@ -20,6 +20,10 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
     @GetMapping(value="/persons")
     public ResponseEntity<List<Person>> getAllPersons(){
         LOGGER.info("Requête reçue à /persons");

@@ -13,6 +13,10 @@ public class PersonService implements IPersonService {
     @Autowired
     PersonDAO personDAO;
 
+    public void setPersonDAO(PersonDAO personDAO) {
+        this.personDAO = personDAO;
+    }
+
     @Override
     public List<Person> findAll(){
         return personDAO.getPersonList();
