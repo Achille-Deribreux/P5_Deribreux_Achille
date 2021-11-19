@@ -34,6 +34,17 @@ public class PersonControllerTest {
     }
 
     @Test
+    public void getAllPersonsTest() throws Exception {
+        mockMvc.perform(get("/persons")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getPersonByNameTest() throws Exception {
+        mockMvc.perform(get("/person").param("firstName", "John")
+                .param("lastName", "Boyd")).andExpect(status().isOk());
+    }
+
+    @Test
     public void addPersonTest() throws Exception {
         mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON).content(asJsonString(person))).andExpect(status().isCreated());
     }

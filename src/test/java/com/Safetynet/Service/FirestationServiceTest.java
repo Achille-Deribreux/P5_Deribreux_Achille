@@ -1,6 +1,8 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Data.GeneralData;
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundByAddressException;
+import com.Safetynet.Exceptions.CustomExceptions.FirestationNotFoundExceptions;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.Firestations;
 import com.Safetynet.Utils.Dataloader;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class FirestationServiceTest {
@@ -52,6 +55,14 @@ public class FirestationServiceTest {
     }
 
     @Test
+    public void findAddressByNumberThrowTest(){
+        //Given
+        Integer unknownNumber = 129;
+        //When & Then
+        assertThrows(FirestationNotFoundExceptions.class,()->firestationService.findAddressByNumber(unknownNumber));
+    }
+
+    @Test
     public void findNumberByAddressTest(){
         //Given
         String address = "1509 Culver St";
@@ -61,5 +72,13 @@ public class FirestationServiceTest {
         result = firestationService.findNumberByAddress(address);
         //Then
         assertEquals(expected,result);
+    }
+
+    @Test
+    public void findNumberByAddressThrowTest(){
+        //Given
+        String unknownAddress = "unknownAddress";
+        //When & Then
+        assertThrows(FirestationNotFoundByAddressException.class,()->firestationService.findNumberByAddress(unknownAddress));
     }
 }

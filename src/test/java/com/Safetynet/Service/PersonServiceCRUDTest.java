@@ -23,6 +23,28 @@ public class PersonServiceCRUDTest {
     PersonService personService;
 
     @Test
+    public void findByNameTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        //When
+        when(personDAO.findByName(firstName,lastName)).thenReturn(new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@email.com"));
+        //Then
+        assertEquals(personDAO.findByName(firstName,lastName),personService.findByName(firstName,lastName));
+    }
+
+    @Test
+    public void findByNameCallTest(){
+        //Given
+        String firstName = "John";
+        String lastName = "Boyd";
+        //When
+        personService.findByName(firstName,lastName);
+        //Then
+        verify(personDAO, Mockito.times(1)).findByName(firstName,lastName);
+    }
+
+    @Test
     public void addPersonTest(){
         //Given
         Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@email.com");

@@ -1,6 +1,7 @@
 package com.Safetynet.Service;
 
 import com.Safetynet.Data.GeneralData;
+import com.Safetynet.Exceptions.CustomExceptions.MedicalRecordsNotFoundException;
 import com.Safetynet.Model.Data;
 import com.Safetynet.Model.MedicalRecords;
 import com.Safetynet.Model.Person;
@@ -14,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -58,6 +61,15 @@ public class MedicalRecordServiceTest {
     }
 
     @Test
+    public void findAgeFromNameThrowTest(){
+        //Given
+        String firstName = "A";
+        String lastName = "B";
+        //When & Then
+        assertThrows(MedicalRecordsNotFoundException.class,()->medicalRecordService.findAgeFromName(firstName,lastName));
+    }
+
+    @Test
     public void findAgeFromBirthdateTest(){
         //Given
         String birthdate = "02/18/2012";
@@ -70,7 +82,7 @@ public class MedicalRecordServiceTest {
     }
 
     @Test
-    public void findAllergiesByName(){
+    public void findAllergiesByNameTest(){
         //Given
         String firstName = "John";
         String lastName = "Boyd";
@@ -83,11 +95,37 @@ public class MedicalRecordServiceTest {
     }
 
     @Test
-    public void findMedicationByName(){
+    public void findAllergiesByUnknownNameTest(){
+        //Given
+        String firstName = "a";
+        String lastName = "b";
+        List<String> expected = Collections.emptyList();
+        List<String> result;
+        //When
+        result = medicalRecordService.findAllergiesByName(firstName,lastName);
+        //Then
+        assertEquals(expected,result);
+    }
+
+    @Test
+    public void findMedicationByNameTest(){
         //Given
         String firstName = "John";
         String lastName = "Boyd";
         List<String> expected = List.of("aznol:350mg", "hydrapermazol:100mg");
+        List<String> result;
+        //When
+        result = medicalRecordService.findMedicationsByName(firstName,lastName);
+        //Then
+        assertEquals(expected,result);
+    }
+
+    @Test
+    public void findMedicationByUnknownNameTest(){
+        //Given
+        String firstName = "v";
+        String lastName = "a";
+        List<String> expected = Collections.emptyList();
         List<String> result;
         //When
         result = medicalRecordService.findMedicationsByName(firstName,lastName);
