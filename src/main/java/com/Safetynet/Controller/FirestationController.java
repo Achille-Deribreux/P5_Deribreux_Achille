@@ -17,6 +17,10 @@ public class FirestationController {
     @Autowired
     FirestationService firestationService;
 
+    public void setFirestationService(FirestationService firestationService) {
+        this.firestationService = firestationService;
+    }
+
     private static final Logger LOGGER = LogManager.getLogger(FirestationController.class);
 
 

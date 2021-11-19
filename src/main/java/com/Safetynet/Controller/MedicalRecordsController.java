@@ -17,6 +17,10 @@ public class MedicalRecordsController {
     @Autowired
     MedicalRecordService medicalRecordService;
 
+    public void setMedicalRecordService(MedicalRecordService medicalRecordService) {
+        this.medicalRecordService = medicalRecordService;
+    }
+
     private static final Logger LOGGER = LogManager.getLogger(MedicalRecordsController.class);
 
     @GetMapping(value="/medicalRecords")

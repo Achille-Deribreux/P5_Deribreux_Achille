@@ -16,6 +16,10 @@ public class FirestationService implements IFirestationService {
     @Autowired
     FirestationDAO firestationDAO;
 
+    public void setFirestationDAO(FirestationDAO firestationDAO) {
+        this.firestationDAO = firestationDAO;
+    }
+
     @Override
     public List<Firestations> findAll(){
         return firestationDAO.getFirestationsList();

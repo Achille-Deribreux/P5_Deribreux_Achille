@@ -1,6 +1,5 @@
 package com.Safetynet.Controller;
 
-import com.Safetynet.Model.Firestations;
 import com.Safetynet.Model.Person;
 import com.Safetynet.Service.PersonService;
 import org.apache.logging.log4j.LogManager;

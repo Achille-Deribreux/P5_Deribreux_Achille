@@ -19,6 +19,10 @@ public class MedicalRecordService implements IMedicalRecordService{
     @Autowired
     MedicalRecordsDAO medicalRecordsDAO;
 
+    public void setMedicalRecordsDAO(MedicalRecordsDAO medicalRecordsDAO) {
+        this.medicalRecordsDAO = medicalRecordsDAO;
+    }
+
     public MedicalRecords findByName(String firstName, String lastName){
         return medicalRecordsDAO.findByName(firstName,lastName);
     }
