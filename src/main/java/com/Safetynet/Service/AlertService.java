@@ -33,6 +33,17 @@ public class AlertService implements IAlertService{
     @Autowired
     MedicalRecordService medicalRecordService;
 
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public void setFirestationService(FirestationService firestationService) {
+        this.firestationService = firestationService;
+    }
+
+    public void setMedicalRecordService(MedicalRecordService medicalRecordService) {
+        this.medicalRecordService = medicalRecordService;
+    }
 
     @Override
     public ListByFirestation getPersonsListByFirestation(Integer firestation){

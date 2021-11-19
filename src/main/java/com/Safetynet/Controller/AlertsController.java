@@ -24,6 +24,10 @@ public class AlertsController {
     @Autowired
     AlertService alertService;
 
+    public void setAlertService(AlertService alertService) {
+        this.alertService = alertService;
+    }
+
     private static final Logger LOGGER = LogManager.getLogger(AlertsController.class);
 
     @GetMapping(value = "/communityEmail")
