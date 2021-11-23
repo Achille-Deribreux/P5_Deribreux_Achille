@@ -67,7 +67,7 @@ public class AlertsController {
     }
 
     @GetMapping(value="/flood/stations")
-    public ResponseEntity<List<Flood>> s(@RequestParam(value="station_numbers") List<Integer> stationsNumberList){
+    public ResponseEntity<List<Flood>> showPersonsAndAddressByFireStationNumber(@RequestParam(value="station_numbers") List<Integer> stationsNumberList){
         LOGGER.info("Requête reçue à /flood/stations");
         return new ResponseEntity<>(alertService.getPersonsAndAddressByFirestationNumber(stationsNumberList), HttpStatus.OK);
     }
