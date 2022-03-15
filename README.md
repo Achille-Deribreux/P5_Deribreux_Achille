@@ -1,23 +1,37 @@
-#Safety Alerts
-##Projet 5 Parcours DA Java - OpenClassrooms
+<p align="center">
+<img src="https://img.shields.io/badge/java-%23ED8B00.svg?&style=for-the-badge&logo=java&logoColor=white"/> * * *  <img src="https://img.shields.io/badge/spring%20-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white"/>
+</p>
+<h1 align="center">
+ OpenClassrooms Java Application Developer Project 5
+</h1>
 
-#Spring Boot WebApp
-Récapitulatif stack techniques : 
+<p align="center">
+ <img src="./safetynet_logo.PNG" width="200" />
+</p>
+
+<br><br>
+
+<h2 align="center">
+ OpenClassrooms Java Application Developer Project 5
+</h2>
+
+<p align="center">
+SafetyNetAlerts is an API, reading a specific json files to process informations using Endpoints. This API respects SOLID princips and REST architecture.
+</p>
+
 <br>
+
+<h2>Project info : </h2>
+<h5>Récapitulatif stack technique : </h5>
 https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DAJava_P5/Spe%CC%81cifications+et+stack+technique+des+SafetyNet+Alerts.pdf
-<br>
-<br>
-Endpoints :
-<br>
+<h5>Endpoints : </h5>
 https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DAJava_P5/Endpoints.pdf
-<br>
-<br>
-Urls : 
-<br>https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DAJava_P5/URLs.pdf
+<h5>Urls : </h5>
+https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DAJava_P5/URLs.pdf
 
-#Launch app
-1° Clone project
-<br>
-2° Open it in your favorite IDE
-<br>
-3° Launch "SafetynetApplication"
+<h2>Launch app</h2>
+<ol>
+<li>Clone project</li>
+<li>Open it in your favorite IDE</li>
+<li>Launch "SafetynetApplication"</li>
+</ol>
